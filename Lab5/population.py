@@ -52,8 +52,10 @@ class Population:
                 descendants.append(Individual(self.mutate(child2_genome)))
         return descendants
 
-    def get_the_best_individual(self):
-        return max(self.individuals, key=lambda ind: ind.fitness)
+    def select_next_generation(self, descendants):
+        combined = self.individuals + descendants
+        combined.sort(key=lambda ind: ind.fitness, reverse=True)
+        self.individuals = combined[:self.amount]
 
     def simulate(self, iterations, last_alive=False, min_fitness=50):
         self.init_population()
@@ -70,7 +72,7 @@ class Population:
 
 
 
-    def select_next_generation(self, descendants):
-        combined = self.individuals + descendants
-        combined.sort(key=lambda ind: ind.fitness, reverse=True)
-        self.individuals = combined[:self.amount]
+
+
+    def get_the_best_individual(self):
+        return max(self.individuals, key=lambda ind: ind.fitness)
